@@ -1,0 +1,41 @@
+html, body{
+  background: linear-gradient(77.19deg, #001664 -27.1%, #683393 105.92%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  margin: 0;
+  padding: 0;
+}
+
+.landingPageTitle, .landingPageImg{
+    display: inline-block;
+}
+.landingPageTitle{
+  font-family: 'Arvo';
+  color: white;
+  font-weight: 700;
+  font-size: 80px;
+  text-align: center;
+ position: absolute;
+ top:50%;
+ transform: translateY(-50%);
+ margin-left: 100px;
+}
+.landingPageImg{
+    float: right;
+}
+@media (max-width: 1577px) {
+    .landingPageTitle {
+        position: static !important;
+         transform: none;
+    }
+}
+@media (max-width: 970px){
+    .landingPageImg{
+        width: 100%;
+    }
+    .landingPageTitle{
+       width: 100%;
+       text-align: center;
+       margin:0 ;
+    }
+}

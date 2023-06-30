@@ -1,0 +1,48 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
+      <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
+<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+    <link href="./dashboard.css" rel="stylesheet"/>
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&display=swap');
+        </style>
+     <title>Dashboard</title>
+ </head>
+ <body>
+    <div class="nav">
+<img class="navBG" src="../assets/navBG.png" width="100%"/>
+<div class="navItems">
+    <span class="navItem selected" id="0">9th Grade</span>
+    <span class="navItem" id="1">10th Grade</span>
+    <span class="navItem" id="2">11th Grade</span>
+    <span class="navItem" id="3">12th Grade</span>
+</div>
+    </div>
+    <div class="contentContainer">
+        <div class="activitiesContainer">
+        <span class="contentTitle">9th Grade Activities</span>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th >Activity</th>
+                    <th >Date Started</th>
+                    <th >Date Completed</th>
+                </tr>
+            </thead>
+            <tbody id="tBody">
+           
+        
+            </tbody>
+        </table>
+        <div class="bottom" id="add"> + </div>
+        </div>
+    </div>
+  
+     <script src="./dashboard.js" defer></script>
+ </body>
+ </html>

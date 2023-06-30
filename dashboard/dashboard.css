@@ -1,0 +1,94 @@
+.nav{
+    background-color: white;
+    width: 20rem;
+    height: 100vh;
+}
+body{
+    margin: 0;
+}
+.contentContainer{
+   position: absolute;
+   top:0;
+   right:0;
+    height: 100vh;
+    width: calc(100% - 20rem);
+    background: url(../assets/beautiful-shot-small-lake-with-wooden-rowboat-focus-breathtaking-clouds-sky\ 1.png) no-repeat ;
+    background-size: 100%;
+}
+.navBG{
+    margin-top: 35px;
+}
+.navItems{
+    margin-left: 5px;
+    margin-top: 60px;
+}
+.navItem{
+    display: block;
+    font-family: "Arvo";
+    font-size: 25px;
+    margin-top: 20px;
+    padding: 5px;
+    width: 90%;
+    border-radius: 5px;
+}
+.navItem:hover{
+    background-color: #E7E7E7;
+    cursor: pointer;
+}
+.selected{
+    background-color: #E7E7E7;
+
+}
+.contentTitle{
+    display: block;
+    font-size: 40px;
+    font-family: "Arvo";
+    font-weight: bold;
+}
+.activitiesContainer{
+   position: absolute;
+   top:50%;
+   left:50%;
+   transform: translate(-50%, -50%);
+   height: 90%;
+   width: 90%;
+   background-color: rgba(255, 255, 255, 0.924);
+   border-radius: 10px;
+   padding: 15px;
+}
+.table{
+    font-family: 'Arvo';
+    font-size: 20px;
+    font-size: 30px;
+    width: 100%;
+    table-layout: fixed;
+    background-color: white;
+    border-left: solid black 1px;
+    border-right: solid black 1px;
+    border-top: solid black 1px;
+}
+th{
+    font-weight: 400;
+}
+td{
+    text-align: center;
+}
+thead tr th {
+    border-bottom: solid 1px black;
+}
+tbody tr td {
+    border-bottom: solid 1px black;
+}
+.bottom{
+    width: 100%;
+     font-family: 'Arvo';
+     font-size: 30px;
+     text-align: center;
+     border-left: 1px solid black;
+     border-right: 1px solid black;
+     border-bottom: 1px solid black;
+     display: inline-block;
+}
+.bottom:hover{
+    cursor: pointer;
+}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&display=swap');
+    </style>
+    <link rel="stylesheet" href="./register.css" />
+    <link rel="stylesheet" href="../nav.css" />
+    <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
+    <title>College Sight- Register</title>
+</head>
+
+<body>
+    <nav>
+        <img onclick="window.location.href='../index.html'" src="../assets/logo.png" class="nav-logo" />
+        <div class="loginAndRegisterContainer">
+            <span class="login">Login</span>
+            <span class="register">Register</div>
+        </div>
+    </nav>
+    <div class="registrationContainer">
+        <span class="registerTitle">Register</span>
+        <div id="firebaseui-auth-container"><button class="registerBtn" onclick="googleSignin()"> 
+            <img class="registerBtnImg" height="50" src="../assets/googleImage.png" />
+            <span class="registerBtnText">Register With Google </span></button>
+</div>
+    </div>
+<script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+
+<!--Configure firebase-->
+<script>
+    // Visit https://console.firebase.google.com/project/<your project id>/overview and click on "Add Firebase to your web app"
+  const config = {
+  apiKey: "AIzaSyB15xUdx3sBATGIxY_h-SnCoxkIy5wLT6U",
+  authDomain: "college-sight.firebaseapp.com",
+  databaseURL: "https://college-sight-default-rtdb.firebaseio.com",
+  projectId: "college-sight",
+  storageBucket: "college-sight.appspot.com",
+  messagingSenderId: "242183854343",
+  appId: "1:242183854343:web:75b132b93c907deedc4da2",
+  measurementId: "G-G7HRLM0245"
+  };
+  const app = firebase.initializeApp(config);
+
+</script>
+
+<!--Handle auth events-->
+<script>
+ var provider = new firebase.auth.GoogleAuthProvider();
+
+ function googleSignin() {
+ firebase.auth().signInWithPopup(provider).then(function(result) {
+ var token = result.credential.accessToken;
+ var user = result.user;
+localStorage.setItem('loggedIn', '1')
+ console.log(token);
+registerUser(user.uid, user.email.split("@")[0], user.email, user.photoURL);
+
+ }).catch(function(error) {
+ var errorCode = error.code;
+ var errorMessage = error.message;
+
+ console.log(error.code)
+ console.log(error.message)
+ });
+ }
+
+ function googleSignout() {
+ firebase.auth().signOut()
+
+ .then(function() {
+ console.log('Signout Succesfull');
+localStorage.removeItem('loggedIn')
+
+
+ }, function(error) {
+ console.log('Signout Failed');
+localStorage.removeItem('loggedIn')
+
+ });
+ }
+</script>
+<script src="register.js" defer></script>
+</body>
+
+</html>
