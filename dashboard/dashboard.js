@@ -3,6 +3,8 @@ let ninthActivities = [];
 let tenthActivities = [];
 let eleventhActivities = [];
 let twelfthActivities = [];
+selected = 0;
+
 let tBody = document.getElementById("tBody");
 let add = document.getElementById("add");
 const config = {
@@ -29,14 +31,13 @@ firebase.auth().onAuthStateChanged(user => {
     var user = firebase.database().ref('users/' + user.uid);
     user.on('value', (snapshot) => {
         const data = snapshot.val();
-        console.log(data);
-        if (data.ninthActivities) {
+        if (data.ninthActivities && selected == 0) {
             ninthActivities = data.ninthActivities;
             tBody.innerHTML = "";
             Object.values(ninthActivities).forEach((activity,i) => {
                 var dateStart = new Date(activity.dateStart);
                 var dateEnd = new Date(activity.dateEnd);
-                tBody.innerHTML += `<tr onclick=delete("${Object.keys(ninthActivities)[i]}") id="${Object.keys(ninthActivities)[i]}">
+                tBody.innerHTML += `<tr onclick=removeItem("${Object.keys(ninthActivities)[i]}","ninthActivities") id="${Object.keys(ninthActivities)[i]}">
                     <td>${activity.activityName}</td>
                     <td>${dateStart.toLocaleDateString()}</td>
                     <td>${dateEnd.toLocaleDateString()}</td>
@@ -44,27 +45,81 @@ firebase.auth().onAuthStateChanged(user => {
             });
             
         }
+        else if(selected == 0){
+            tBody.innerHTML = ``;
+            
+        }
         if (data.tenthActivities) {
             tenthActivities = data.tenthActivities;
         }
+        if(data.tenthActivities && selected == 1){
+            tBody.innerHTML = "";
+            Object.values(tenthActivities).forEach((activity,i) => {
+                var dateStart = new Date(activity.dateStart);
+                var dateEnd = new Date(activity.dateEnd);
+                tBody.innerHTML += `<tr onclick=removeItem("${Object.keys(tenthActivities)[i]}","tenthActivities") id="${Object.keys(tenthActivities)[i]}">
+                    <td>${activity.activityName}</td>
+                    <td>${dateStart.toLocaleDateString()}</td>
+                    <td>${dateEnd.toLocaleDateString()}</td>
+                </tr>` 
+            });
+        }
+        else if(selected == 1){
+            tBody.innerHTML = "";
+                }
         if (data.eleventhActivities) {
             eleventhActivities = data.eleventhActivities;
         }
+        if(data.eleventhActivities && selected == 2){
+            tBody.innerHTML = "";
+            Object.values(eleventhActivities).forEach((activity,i) => {
+                var dateStart = new Date(activity.dateStart);
+                var dateEnd = new Date(activity.dateEnd);
+                tBody.innerHTML += `<tr onclick=removeItem("${Object.keys(eleventhActivities)[i]}","elenventhActivities) id="${Object.keys(eleventhActivities)[i]}">
+                    <td>${activity.activityName}</td>
+                    <td>${dateStart.toLocaleDateString()}</td>
+                    <td>${dateEnd.toLocaleDateString()}</td>
+                </tr>` 
+            });
+        }
+        else if(selected == 2){
+            tBody.innerHTML = "";
+                }
         if (data.twelfthActivities) {
             twelfthActivities = data.twelfthActivities;
         }
+        if(data.twelfthActivities && selected ==3){
+            tBody.innerHTML = "";
+            Object.values(twelfthActivities).forEach((activity,i) => {
+                var dateStart = new Date(activity.dateStart);
+                var dateEnd = new Date(activity.dateEnd);
+                tBody.innerHTML += `<tr onclick=removeItem("${Object.keys(twelfthActivities)[i]}","twelfthActivities") id="${Object.keys(twelfthActivities)[i]}">
+                    <td>${activity.activityName}</td>
+                    <td>${dateStart.toLocaleDateString()}</td>
+                    <td>${dateEnd.toLocaleDateString()}</td>
+                </tr>` 
+            });
+        
+        }
+        else if(selected == 3){
+            tBody.innerHTML = "";
+                }
         doneLoading = true;
     });
 
 })
 
-selected = 0;
-function removeItem(id){
-    switch (selected) {
-        case 0:
-            updates['/users/' + currUser.uid + '/ninthActivities/' + id] = null;
-            return firebase.database().ref().update(updates);
+function removeItem(id, type){
+    var updates = {};
+var confirmed = confirm("Delete this activity?");
+if(confirmed){
+updates['/users/' + currUser.uid + '/'+type+'/' + id] = null;
+return firebase.database().ref().update(updates);
 }
+else {
+    return;
+}
+
 }
 var ninth = document.getElementById("0");
 var tenth = document.getElementById("1");
@@ -130,16 +185,17 @@ add.addEventListener("click", () => {
                     updates['/users/' + currUser.uid + '/ninthActivities/' + newPostKey] = { activityName, dateStart, dateEnd };
                     break;
                 case 1:
-                    updates['/users/' + currUser.uid + '/tenthActivities'] = { activityName, dateStart, dateEnd };
-                    break;
+                    newPostKey = firebase.database().ref().child('users/' + currUser.uid + '/tenthActivities/').push().key;
+                    updates['/users/' + currUser.uid + '/tenthActivities/' + newPostKey] = { activityName, dateStart, dateEnd };                    break;
 
                 case 2:
-                    updates['/users/' + currUser.uid + '/eleventhActivities'] = { activityName, dateStart, dateEnd };
-                    break;
+                    newPostKey = firebase.database().ref().child('users/' + currUser.uid + '/eleventhActivities/').push().key;
+                    updates['/users/' + currUser.uid + '/eleventhActivities/' + newPostKey] = { activityName, dateStart, dateEnd };                    break;
 
                 case 3:
-                    updates['/users/' + currUser.uid + '/twelfthActivities'] = { activityName, dateStart, dateEnd };
-                    break;
+                    newPostKey = firebase.database().ref().child('users/' + currUser.uid + '/twelfthActivities/').push().key;
+                    updates['/users/' + currUser.uid + '/twelfthActivities/' + newPostKey] = { activityName, dateStart, dateEnd };                    break;
+
 
 
             }
@@ -147,7 +203,8 @@ add.addEventListener("click", () => {
 
         }
     }
-})
+});
+var contentTitle = document.getElementById("contentTitle");
 ninth.addEventListener("click", () => {
     if (!doneLoading) return;
     ninth.className = "navItem selected";
@@ -155,34 +212,77 @@ ninth.addEventListener("click", () => {
     eleventh.className = "navItem";
     twelfth.className = "navItem";
     selected = 0;
+    contentTitle.textContent = "9th Grade Activities";
+    tBody.innerHTML = "";
+    Object.values(ninthActivities).forEach((activity,i) => {
+        var dateStart = new Date(activity.dateStart);
+        var dateEnd = new Date(activity.dateEnd);
+        tBody.innerHTML += `<tr onclick=removeItem("${Object.keys(ninthActivities)[i]}","ninthActivities") id="${Object.keys(ninthActivities)[i]}">
+            <td>${activity.activityName}</td>
+            <td>${dateStart.toLocaleDateString()}</td>
+            <td>${dateEnd.toLocaleDateString()}</td>
+        </tr>` 
+    });
 });
 tenth.addEventListener("click", () => {
     if (!doneLoading) return;
+    contentTitle.textContent = "10th Grade Activities";
 
     tenth.className = "navItem selected";
     ninth.className = "navItem";
     eleventh.className = "navItem";
     twelfth.className = "navItem";
     selected = 1;
+    tBody.innerHTML = "";
+    Object.values(tenthActivities).forEach((activity,i) => {
+        var dateStart = new Date(activity.dateStart);
+        var dateEnd = new Date(activity.dateEnd);
+        tBody.innerHTML += `<tr onclick=removeItem("${Object.keys(tenthActivities)[i]}","tenthActivities") id="${Object.keys(tenthActivities)[i]}">
+            <td>${activity.activityName}</td>
+            <td>${dateStart.toLocaleDateString()}</td>
+            <td>${dateEnd.toLocaleDateString()}</td>
+        </tr>` 
+    });
 
 })
 eleventh.addEventListener("click", () => {
     if (!doneLoading) return;
+    contentTitle.textContent = "11th Grade Activities";
 
     tenth.className = "navItem";
     ninth.className = "navItem";
     eleventh.className = "navItem selected";
     twelfth.className = "navItem";
     selected = 2;
-
+    tBody.innerHTML = "";
+    Object.values(eleventhActivities).forEach((activity,i) => {
+        var dateStart = new Date(activity.dateStart);
+        var dateEnd = new Date(activity.dateEnd);
+        tBody.innerHTML += `<tr onclick=removeItem("${Object.keys(eleventhActivities)[i]}","eleventhActivities") id="${Object.keys(eleventhActivities)[i]}">
+            <td>${activity.activityName}</td>
+            <td>${dateStart.toLocaleDateString()}</td>
+            <td>${dateEnd.toLocaleDateString()}</td>
+        </tr>` 
+    });
 });
 twelfth.addEventListener("click", () => {
     if (!doneLoading) return;
+    contentTitle.textContent = "12th Grade Activities";
 
     tenth.className = "navItem";
     ninth.className = "navItem";
     eleventh.className = "navItem";
     twelfth.className = "navItem selected";
     selected = 3;
+    tBody.innerHTML = "";
+    Object.values(twelfthActivities).forEach((activity,i) => {
+        var dateStart = new Date(activity.dateStart);
+        var dateEnd = new Date(activity.dateEnd);
+        tBody.innerHTML += `<tr onclick=removeItem("${Object.keys(twelfthActivities)[i]}","twelfthActivities") id="${Object.keys(twelfthActivities)[i]}">
+            <td>${activity.activityName}</td>
+            <td>${dateStart.toLocaleDateString()}</td>
+            <td>${dateEnd.toLocaleDateString()}</td>
+        </tr>` 
+    });
 
 })

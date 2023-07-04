@@ -79,6 +79,9 @@ thead tr th {
 tbody tr td {
     border-bottom: solid 1px black;
 }
+tr:hover{
+cursor: pointer;
+}
 .bottom{
     width: 100%;
      font-family: 'Arvo';
@@ -92,3 +95,41 @@ tbody tr td {
 .bottom:hover{
     cursor: pointer;
 }
+.minimalNavItems{
+    display: none;
+}
+@media (max-width: 872px) {
+    .nav{
+        width: 100%;
+        height: 100px;
+        position: fixed;
+        bottom: 0;
+        z-index: 1;
+    }
+    .navItems{
+        display: none;
+    }
+    .minimalNavItems{
+        display: block;
+        position: absolute;
+        left: 50px;
+    }
+    .minNav{
+        font-family: 'Arvo';
+        font-size: 50px;
+        padding: 5px;    
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .miniNav:hover{
+        cursor: pointer;
+        background-color: #E7E7E7;
+    }
+    .navBG{
+        display: none;
+    }
+    .contentContainer{
+        height: 100vh;
+        width: 100%;
+    }
+}   
